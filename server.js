@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { connectDB } from './config/db.js';
+import authRoutes from './routes/authRoutes.js';
+import { errorHandler } from './middleware/errorHandler.js';
 
 dotenv.config();
 
@@ -31,6 +33,9 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
   res.json({ message: 'LocalServe Nepal API is running' });
 });
+
+app.use('/api/auth', authRoutes);
+app.use(errorHandler);
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
