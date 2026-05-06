@@ -1,8 +1,7 @@
 import Booking from '../models/Booking.js';
 import Service from '../models/Service.js';
 
-// @desc    Create booking
-// @route   POST /api/bookings
+
 export const createBooking = async (req, res) => {
   const { serviceId, date, timeSlot, notes } = req.body;
 
@@ -22,8 +21,7 @@ export const createBooking = async (req, res) => {
   res.status(201).json(booking);
 };
 
-// @desc    Get customer bookings
-// @route   GET /api/bookings/mine
+
 export const getMyBookings = async (req, res) => {
   const bookings = await Booking.find({ customer: req.user._id })
     .populate('service', 'title images price priceType')
@@ -33,8 +31,7 @@ export const getMyBookings = async (req, res) => {
   res.json(bookings);
 };
 
-// @desc    Get provider bookings
-// @route   GET /api/bookings/provider
+
 export const getProviderBookings = async (req, res) => {
   const bookings = await Booking.find({ provider: req.user._id })
     .populate('service', 'title images price priceType')
@@ -44,8 +41,7 @@ export const getProviderBookings = async (req, res) => {
   res.json(bookings);
 };
 
-// @desc    Update booking status
-// @route   PUT /api/bookings/:id
+
 export const updateBookingStatus = async (req, res) => {
   const { status } = req.body;
   const booking = await Booking.findById(req.params.id);
@@ -59,7 +55,6 @@ export const updateBookingStatus = async (req, res) => {
     return res.status(403).json({ message: 'Not authorized' });
   }
 
-  // Customers can only cancel
   if (isCustomer && status !== 'cancelled') {
     return res.status(403).json({ message: 'Customers can only cancel bookings' });
   }
