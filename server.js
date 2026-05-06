@@ -7,6 +7,11 @@ import { Server } from 'socket.io';
 import { connectDB } from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import serviceRoutes from './routes/serviceRoutes.js';
+import bookingRoutes from './routes/bookingRoutes.js';
+import reviewRoutes from './routes/reviewRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 dotenv.config();
 
@@ -35,7 +40,13 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/conversations', chatRoutes);
+app.use('/api/admin', adminRoutes);
 app.use(errorHandler);
+
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
